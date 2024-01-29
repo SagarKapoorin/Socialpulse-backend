@@ -1,5 +1,6 @@
 const express=require('express');
 const bodyParser=require('body-parser');
+const methodoverride=require('method-override')
 const mongoose=require('mongoose');
 const cors=require('cors');
 const dotenv=require('dotenv');
@@ -29,4 +30,18 @@ const storage = multer.diskStorage({
       cb(null, file.originalname);
     },
   });
-  const upload = multer({ storage });
+const upload = multer({ storage });
+// MongoDB and Mongoose Setup
+const PORT=process.env.PORT || 3000;
+mongoose
+  .connect(process.env.MONGO_URL, {
+  })
+  .then(() => {
+    app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+
+    /* ADD DATA ONE TIME */
+    // User.insertMany(users);
+    // Post.insertMany(posts);
+  })
+  .catch((error) => console.log(`${error} did not connect`));
+
