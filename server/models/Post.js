@@ -1,45 +1,35 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema(
+const postSchema = mongoose.Schema(
   {
+    userId: {
+      type: String,
+      required: true,
+    },
     firstName: {
       type: String,
       required: true,
-      min: 2,
-      max: 50,
     },
     lastName: {
       type: String,
       required: true,
-      min: 2,
-      max: 50,
     },
-    email: {
-      type: String,
-      required: true,
-      max: 50,
-      unique: true,
+    location: String,
+    description: String,
+    picturePath: String,
+    userPicturePath: String,
+    likes: {
+      type: Map,
+      of: Boolean,
     },
-    password: {
-      type: String,
-      required: true,
-      min: 5,
-    },
-    picturePath: {
-      type: String,
-      default: "",
-    },
-    friends: {
+    comments: {
       type: Array,
       default: [],
     },
-    location: String,
-    occupation: String,
-    viewedProfile: Number,
-    impressions: Number,
   },
-  { timestamps: true } //date   not using anywhere but useful
+  { timestamps: true }
 );
 
-const User = mongoose.model("User", UserSchema);
-export default User;
+const Post = mongoose.model("Post", postSchema);
+
+export default Post;
