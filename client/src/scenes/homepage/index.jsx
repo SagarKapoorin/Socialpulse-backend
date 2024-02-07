@@ -1,11 +1,11 @@
 import { Box, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
 import Navbar from "../navbar/index";
-// import UserWidget from "./scenes/widgets/UserWidget";
-// import MyPostWidget from "./scenes/widgets/MyPostWidget";
-// import PostsWidget from "./scenes/widgets/PostsWidget";
-// import AdvertWidget from "./scenes/widgets/AdvertWidget";
-// import FriendListWidget from "scenes/widgets/FriendListWidget";
+import UserWidget from "../../scenes/widgets/UserWidget";
+import MyPostWidget from "../../scenes/widgets/MyPostWidget";
+import PostsWidget from "../../scenes/widgets/PostsWidget";
+import AdvertWidget from "../../scenes/widgets/AdvertWidget";
+import FriendListWidget from "../../scenes/widgets/FriendListWidget";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -14,7 +14,7 @@ const HomePage = () => {
   return (
     <Box>
       <Navbar />
-      {/* <Box
+      <Box
         width="100%"
         padding="2rem 6%"
         display={isNonMobileScreens ? "flex" : "block"}
@@ -38,7 +38,7 @@ const HomePage = () => {
             <FriendListWidget userId={_id} />
           </Box>
         )}
-      </Box> */}
+      </Box>
     </Box>
   );
 };
