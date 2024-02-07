@@ -24,8 +24,8 @@ const AdvertWidget = () => {
         style={{ borderRadius: "0.75rem", margin: "0.75rem 0" }}
       />
       <FlexBetween>
-        <Typography color={main}>Magic-Cosmetics</Typography>
-        <Typography color={medium}>magiccosmetics.com</Typography>
+        <Typography color={main} fontSize="0.6rem">Magic-Cosmetics</Typography>
+        <Typography color={medium} fontSize="0.6rem">magiccosmetics.com</Typography>
       </FlexBetween>
       <Typography color={medium} m="0.5rem 0">
       I put on makeup to distract people from the fact that I haven't slept in days.
