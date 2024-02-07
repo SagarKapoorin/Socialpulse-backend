@@ -1,3 +1,4 @@
+// SINGLE POST STRUCTURE TO BE USE IN POSTSWIDGET.JSX
 import {
     ChatBubbleOutlineOutlined,
     FavoriteBorderOutlined,
