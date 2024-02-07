@@ -1,3 +1,4 @@
+//this is used to grab posts form anyone+post of user to show
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "../../state";
