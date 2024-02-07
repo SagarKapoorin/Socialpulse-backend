@@ -24,7 +24,7 @@ import {
     likes,
     comments,
   }) => {
-    const [isComments, setIsComments] = useState(false);
+    const [isComments, setIsComments] = useState(false);   //if person want to see comments
     const dispatch = useDispatch();
     const token = useSelector((state) => state.token);
     const loggedInUserId = useSelector((state) => state.user._id);
