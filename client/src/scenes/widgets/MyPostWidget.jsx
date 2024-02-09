@@ -29,7 +29,9 @@ import {
   const MyPostWidget = ({ picturePath }) => {
     const dispatch = useDispatch();
     const [isImage, setIsImage] = useState(false);
+    const [isFile, setIsFile] = useState(false);
     const [image, setImage] = useState(null);
+    const [file, setFile] = useState(null);
     const [post, setPost] = useState("");
     const { palette } = useTheme();
     const { _id } = useSelector((state) => state.user);
@@ -118,7 +120,52 @@ import {
             </Dropzone>
           </Box>
         )}
-  
+
+        {isFile && (
+          <Box
+            border={`1px solid ${medium}`}
+            borderRadius="5px"
+            mt="1rem"
+            p="1rem"
+          >
+            <Dropzone
+              acceptedFiles=".pdf,.doc,.docx"
+              multiple={false}
+              onDrop={(acceptedFiles) => setFile(acceptedFiles[0])}
+            >
+              {({ getRootProps, getInputProps }) => (
+                <FlexBetween>
+                  <Box
+                    {...getRootProps()}
+                    border={`2px dashed ${palette.primary.main}`}
+                    p="1rem"
+                    width="100%"
+                    sx={{ "&:hover": { cursor: "pointer" } }}
+                  >
+                    <input {...getInputProps()} />
+                    {!file ? (
+                      <p>Add File Here</p>
+                    ) : (
+                      <FlexBetween>
+                        <Typography>{file.name}</Typography>
+                        <EditOutlined />
+                      </FlexBetween>
+                    )}
+                  </Box>
+                  {file && (
+                    <IconButton
+                      onClick={() => setFile(null)}
+                      sx={{ width: "15%" }}
+                    >
+                      <DeleteOutlined />
+                    </IconButton>
+                  )}
+                </FlexBetween>
+              )}
+            </Dropzone>
+          </Box>
+        )}
+
         <Divider sx={{ margin: "1.25rem 0" }} />
   
         <FlexBetween>
@@ -136,14 +183,14 @@ import {
             <>
               
   
-              <FlexBetween gap="0.25rem">
+              <FlexBetween gap="0.25rem" onClick={() => setIsFile(!isFile)}>
                 <AttachFileOutlined sx={{ color: mediumMain }} />
-                <Typography color={mediumMain}>Attachment</Typography>
+                <Typography color={mediumMain} sx={{ "&:hover": { cursor: "pointer", color: medium } }}>Attachment</Typography>
               </FlexBetween>
   
               <FlexBetween gap="0.25rem">
                 <MicOutlined sx={{ color: mediumMain }} />
-                <Typography color={mediumMain}>Audio</Typography>
+                <Typography color={mediumMain} sx={{ "&:hover": { cursor: "pointer", color: medium } }}>Audio</Typography>
               </FlexBetween>
             </>
           ) : (
