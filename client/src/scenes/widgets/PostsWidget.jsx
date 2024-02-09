@@ -14,6 +14,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
+    
     const data = await response.json();
     dispatch(setPosts({ posts: data })); //setting in redux
   };
