@@ -5,6 +5,10 @@ import {
     FavoriteOutlined,
     ShareOutlined,
   } from "@mui/icons-material";
+  import Stack from '@mui/material/Stack';
+  import AddCommentIcon from '@mui/icons-material/AddComment';
+  import Button from '@mui/material/Button';
+  import TextField from '@mui/material/TextField';
   import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
   import ShareC from "../../components/Share";
   import FlexBetween from "../../components/FlexBetween";
@@ -26,6 +30,9 @@ import {
     comments,
   }) => {
     const [isComments, setIsComments] = useState(false);   //if person want to see comments
+    const [Comment, SetComment]=useState(comments);
+    const [inputValue, setInputValue] = useState('');
+    const [newComment, SetnewComment]=useState(false);
     const [isShare, setIsShare]=useState(false);
     const dispatch = useDispatch();
     const token = useSelector((state) => state.token);
@@ -49,7 +56,37 @@ import {
       const updatedPost = await response.json();
       dispatch(setPost({ post: updatedPost }));
     };
-  
+    //add comment 
+    const addComment=(newComment)=>{
+     SetComment((prevcomment)=>[...prevcomment,newComment]);
+     console.log(Comment);
+    }
+    const patchComment=async(C)=>{
+      addComment(C);
+      const response = await fetch(`http://localhost:8080/posts/${postId}/comment`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body:JSON.stringify({  C }),
+      });
+      const updatedPost = await response.json();
+      // console.log(updatedPost)
+      const check=dispatch(setPost({ post: updatedPost }));
+      // console.log(check);
+    };
+    //handle change
+    const handleChange = (event) => {
+      setInputValue(event.target.value);
+    };
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      if(inputValue.length>0){
+        patchComment(inputValue);
+        setInputValue('');
+      }
+    };
     return (
       <WidgetWrapper m="2rem 0">
         <Friend
@@ -82,22 +119,27 @@ import {
               </IconButton>
               <Typography>{likeCount}</Typography>
             </FlexBetween>
-  
             <FlexBetween gap="0.3rem">
               <IconButton onClick={() => setIsComments(!isComments)}>
                 <ChatBubbleOutlineOutlined />
               </IconButton>
-              <Typography>{comments.length}</Typography>
+              <Typography>{Comment.length}</Typography>
             </FlexBetween>
+
+            <IconButton onClick={()=> SetnewComment(!newComment)}>
+          <AddCommentIcon/>
+          </IconButton>
           </FlexBetween>
   
-          <IconButton >
+          <IconButton>
             <ShareOutlined  onClick={() => setIsShare(!isShare)}/>
           </IconButton>
+  
+          
         </FlexBetween>
         {isComments && (
           <Box mt="0.5rem">
-            {comments.map((comment, i) => (
+            {Comment.map((comment, i) => (
               <Box key={`${name}-${i}`}>
                 <Divider />
                 <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
@@ -108,6 +150,17 @@ import {
             <Divider />
           </Box>
         )}
+        {newComment &&
+          <Box textAlign={"center"}>
+            <form onSubmit={handleSubmit} >
+                  <TextField id="standard-basic" label="Comment" variant="standard"  value={inputValue}
+                      onChange={handleChange} fullWidth="300px"/>
+                    <Stack spacing={1} direction="column" m="1rem">
+                      <Button variant="contained" type="Submit">Submit</Button>
+                    </Stack>
+             </form>
+            </Box>
+        }
         {isShare && <ShareC/>}
       </WidgetWrapper>
     );

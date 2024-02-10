@@ -50,6 +50,7 @@ export const getUserPosts = async (req, res) => {
 
 /* UPDATE */
 export const likePost = async (req, res) => {
+  // console.log(req.body)
   try {
     const { id } = req.params;
     const { userId } = req.body;
@@ -73,3 +74,20 @@ export const likePost = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+
+export const comment= async(req,res)=>{
+  try {
+    const { id } = req.params;
+    const { C }=req.body;
+    // console.log(C);
+    const post = await Post.findById(id);
+    if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+    }
+    post.comments.push(C);
+    await post.save();
+    res.status(200).json({ post });
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
